@@ -1,0 +1,15 @@
+/*
+
+[rewrite_local]
+#桃子视频 公众号：捷径指令大全
+^https?:\/\/api\..*\.xyz\/.*\/user\/info url script-response-body taozi1.js
+
+[mitm]
+hostname = api.*.xyz,
+
+*/
+
+let obj = JSON.parse($response.body);
+obj.result.vipValidDate = 9876543210000;
+obj.result.vipType = 1;
+$done({body: JSON.stringify(obj)});
