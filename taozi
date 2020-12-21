@@ -2,7 +2,8 @@
 
 [rewrite_local]
 #桃子视频 公众号：捷径指令大全
-^https?:\/\/api\..*\.xyz\/.*\/user\/info url script-response-body taozi1.js
+^http:\/\/api\..*\.xyz\/.*\/user\/info url script-response-body https://raw.githubusercontent.com/471357825/Luke/main/taozi
+
 
 [mitm]
 hostname = api.*.xyz,
