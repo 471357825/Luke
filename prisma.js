@@ -1,32 +1,32 @@
 /*
 
-Quantumult X脚本:
-Prima解锁订购
+Quantumult X 脚本:
+prisma 解锁订阅
 公众号:捷径指令大全
 
-[Rewrite_local]
-# Prisma [p图](by:十 °)
-^ Https？: \/\/Appapi \.神经鞘瘤 \。Com \/收据 \/ios \/状态 \/pisma \/。* Url脚本-响应-体pisma。Js
+[rewrite_local]
+#prisma[p图](by:十°)
+^https?:\/\/appapi\.neuralprisma\.com\/receipt\/ios\/status\/prisma\/.* url script-response-body prisma.js
 
-[手套]
-Hostname = appapi。神经炎.Com，
+[mitm]
+hostname = appapi.neuralprisma.com,
 
 */
-Var obj = JSON。Parse ($ response。身体);
-Obj = {
-"状态": "ok"，
-"Is_valid": true，
-"Expiration_date": "2050-12-28T17:11:00Z"，
-"Is_trial": true，
-"Processing_count": 5，
-"Is_introductory_used": true，
-"Product_id": ""，
-"Promotional_offer_id": ""，
-"Is_grace_period": false，
-"Auto_recenabled": true，
-“Is_in_billing_retry_period”: true，
-"Subscription_type": "年度"，
-“平台”: “”
+var obj = JSON.parse($response.body);
+obj = {
+  "status": "ok",
+  "is_valid": true,
+  "expiration_date": "2050-12-28T17:11:00Z",
+  "is_trial": true,
+  "processing_count": 5,
+  "is_introductory_used": true,
+  "product_id": "",
+  "promotional_offer_id": "",
+  "is_grace_period": false,
+  "auto_renew_enabled": true,
+  "is_in_billing_retry_period": true,
+  "subscription_type": "annual",
+  "platform": ""
 };
 
-$ Done ({body: JSONStringify (obj)});
+$done({body: JSON.stringify(obj)});
