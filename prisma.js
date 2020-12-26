@@ -6,7 +6,7 @@ prisma 解锁订阅
 
 [rewrite_local]
 #prisma[p图](by:十°)
-^https?:\/\/appapi\.neuralprisma\.com\/receipt\/ios\/status\/prisma\/.* url script-response-body prisma.js
+^https?:\/\/appapi\.neuralprisma\.com\/receipt\/ios\/status\/prisma\/.* url script-response-body https://raw.githubusercontent.com/471357825/Luke/main/prisma.js
 
 [mitm]
 hostname = appapi.neuralprisma.com,
