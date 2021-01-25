@@ -4,7 +4,7 @@
 
 QuanX:
 #水印精灵 by：luke
-https:\/\/api1\.dobenge\.cn\/api\/user\/getuserinfo url script-response-body syjl.js
+https:\/\/api1\.dobenge\.cn\/api\/user\/getuserinfo url script-response-body https://raw.githubusercontent.com/471357825/Luke/main/syjl.js
 
 MITM = api1.dobenge.cn
 */
