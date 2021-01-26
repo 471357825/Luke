@@ -4,7 +4,7 @@
 
 QuanX:
 #桃子视频 (vip去广告可下载)by:Luke
-^http:\/\/api\..+\.xyz\/fast-cloud\/(user\/info|ads\/fetch|cms\/vod\/download\/.+) url script-response-body taozi.js
+^http:\/\/api\..+\.xyz\/fast-cloud\/(user\/info|ads\/fetch|cms\/vod\/download\/.+) url script-response-body https://raw.githubusercontent.com/471357825/Luke/main/taozi.js
 
 hostname: api.*.xyz
 */
