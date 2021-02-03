@@ -5,7 +5,7 @@
 
 [rewrite_local]
 #Plane vpn 公众号：捷径指令大全 by:Luke
-^https:\/\/buy\.itunes\.apple\.com\/verifyReceipt url script-response-body plane.js
+^https:\/\/buy\.itunes\.apple\.com\/verifyReceipt url script-response-body https://raw.githubusercontent.com/471357825/Luke/main/plane.js
 
 [mitm]
 buy.itunes.apple.com
