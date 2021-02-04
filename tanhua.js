@@ -1,5 +1,6 @@
 /*
 QuanX:       
+公众号:捷径指令大全
 
 [rewrite_local]
 #探花直播 by:Luke
