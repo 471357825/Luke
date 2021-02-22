@@ -8,7 +8,7 @@ QuanX:
 
 [rewrite_local]
 #克拉壁纸 by:Luke
-^https:\/\/buy\.itunes\.apple\.com\/verifyReceipt url script-response-body kl.js
+^https:\/\/buy\.itunes\.apple\.com\/verifyReceipt url script-response-body https://raw.githubusercontent.com/471357825/Luke/main/klbz.js
 [mitm]
 buy.itunes.apple.com
 */
