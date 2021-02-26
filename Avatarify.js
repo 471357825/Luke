@@ -5,7 +5,7 @@ QuanX:
 
 [rewrite_local]
 #Avatarify (蚂蚁呀嘿特效)by:Luke
-^https:\/\/buy\.itunes\.apple\.com\/verifyReceipt url script-response-body Avatarify.js
+^https:\/\/buy\.itunes\.apple\.com\/verifyReceipt url script-response-body https://raw.githubusercontent.com/471357825/Luke/main/Avatarify.js
 [mitm]
 buy.itunes.apple.com
 */
