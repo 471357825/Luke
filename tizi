@@ -1,0 +1,12 @@
+http = a1.ap.fastqvpn.com:29980, username =  416925204208418816, password = 55842c8a-5251-4b54-a6ed-bbb7e917f9d9, over-tls = true, tls-verification = false,fast-open = false, udp-relay = false, tag = 快捷指令大全8
+http = a2.ap.fastqvpn.com:29980, username =  416925204208418816, password =  55842c8a-5251-4b54-a6ed-bbb7e917f9d9, over-tls = true, tls-verification = false,fast-open = false, udp-relay = false, tag = 快捷指令大全
+http = a3.ap.fastqvpn.com:29980, username =  416925204208418816, password =  55842c8a-5251-4b54-a6ed-bbb7e917f9d9, over-tls = true, tls-verification = false,fast-open = false, udp-relay = false, tag = 快捷指令大全1
+http = a4.ap.fastqvpn.com:29980, username =  416925204208418816, password =  55842c8a-5251-4b54-a6ed-bbb7e917f9d9, over-tls = true, tls-verification = false,fast-open = false, udp-relay = false, tag = 快捷指令大全2
+http = a1.er3.xyz:29980, username =  416925204208418816, password =  55842c8a-5251-4b54-a6ed-bbb7e917f9d9, over-tls = true, tls-verification = false,fast-open = false, udp-relay = false, tag = 快捷指令大全3
+http = global.ap.fastqvpn.com:29986,username =  416925204208418816, password =  55842c8a-5251-4b54-a6ed-bbb7e917f9d9, over-tls = true, tls-verification = false, fast-open = false, udp-relay = false, tag = 快捷指令大全4
+http = global.ap.fastqvpn.com:29982, username =  416925204208418816, password =  55842c8a-5251-4b54-a6ed-bbb7e917f9d9, over-tls = true, tls-verification = false, fast-open = false, udp-relay = false, tag = 快捷指令大全5
+http = global.ap.fastqvpn.com:29983, username =  416925204208418816, password =  55842c8a-5251-4b54-a6ed-bbb7e917f9d9, over-tls = true, tls-verification = false, fast-open = false, udp-relay = false, tag = 快捷指令大全6
+http = global.ap.fastqvpn.com:29984, username = 416925204208418816, password =  55842c8a-5251-4b54-a6ed-bbb7e917f9d9, over-tls = true, tls-verification = false, fast-open = false, udp-relay = false, tag = 快捷指令大全7
+http = global.ap.fastqvpn.com:29987, username = 416925204208418816, password =  55842c8a-5251-4b54-a6ed-bbb7e917f9d9, over-tls = true, tls-verification = false, fast-open = false, udp-relay = false, tag = 快捷指令大全9
+http = global.ap.fastqvpn.com:29988, username = 416925204208418816, password =  55842c8a-5251-4b54-a6ed-bbb7e917f9d9, over-tls = true, tls-verification = false, fast-open = false, udp-relay = false, tag = 快捷指令大全10
+http = global.ap.fastqvpn.com:29985, username = 416925204208418816, password =  55842c8a-5251-4b54-a6ed-bbb7e917f9d9, over-tls = true, tls-verification = false, fast-open = false, udp-relay = false, tag = 快捷指令大全11
