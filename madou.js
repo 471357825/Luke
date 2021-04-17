@@ -12,7 +12,7 @@ QuanX:
 #麻豆短视频 by:Luke
 
 [rewrite_local]
-^https:\/\/mda\.+\.site\/api\/(auth\/login|mine\/myHome) url script-response-body madou.js
+^https:\/\/mda\.+\.site\/api\/(auth\/login|mine\/myHome) url script-response-body https://raw.githubusercontent.com/471357825/Luke/main/madou.js
 
 [MitM]
 mda..+.site
