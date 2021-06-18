@@ -3,11 +3,11 @@
 公众号：捷径指令大全
 
 QuanX:
-#清爽视频编辑器  by:luke       
+#清爽视频编辑器 公众号：捷径指令大全 by:luke       
+^http:\/\/videoeditor\.yiyongcad\.com\/api\/v4\/virtualactregister url script-response-body qsspbjq.js
 
-http:\/\/videoeditor\.yiyongcad\.com\/api\/v4\/virtualactregister url script-response-body qsspbjq.js
-
-hostname: videoeditor.yiyongcad.com
+[Mitm]
+videoeditor.yiyongcad.com
 
 */
 var body = $response.body;
