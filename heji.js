@@ -23,13 +23,6 @@ api.zzyyhyy.cn
 [MitM]
 mda.*.site
 
-
-#波波视频       
-http:\/\/api\.wscdn\.vip\/index\/(User\/ucenter|Get\/videoInfo) url script-response-body bobo.js
-hostname: api.wscdn.vip
-^http://api\.wscdn\.vip/index//get/videoList3 url response-body "buyStatus":\d+ response-body "buyStatus":1
-
-
 #探花直播 by:Luke
 ^https:\/\/1008610010\.laikanshu\.top\/Member\/getUserInfo url script-response-body https://raw.githubusercontent.com/471357825/Luke/main/tanhua.js
 [mitm]
@@ -49,11 +42,6 @@ hostname = appapi.neuralprisma.com,
 ^https?:\/\/api\.revenuecat\.com\/v1\/subscribers\/.* url script-response-body logoshop.js
 [mitm]
 hostname = api.revenuecat.com,
-
-
-#水印精灵 by：luke
-https:\/\/api1\.dobenge\.cn\/api\/user\/getuserinfo url script-response-body https://raw.githubusercontent.com/471357825/Luke/main/syjl.js
-MITM = api1.dobenge.cn
 
 
 #清爽视频编辑器 公众号：捷径指令大全 by:luke       
