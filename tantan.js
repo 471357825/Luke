@@ -3,8 +3,8 @@
 
 [rewrite_local]
 #探探网页版 by:Luke
-^http:\/\/iykhb\.xyz:8080\/tantan\/mobile\/tantan\/user\/login url script-response-body https://raw.githubusercontent.com/471357825/Luke/main/tantan.js
-^http:\/\/iykhb\.xyz:8080\/tantan\/mobile\/tantan\/user\/addNm url response-body "code":\d+ response-body "code":1
+^http:\/\/iykhb\.xyz\/tantan\/mobile\/tantan\/user\/login url script-response-body https://raw.githubusercontent.com/471357825/Luke/main/tantan.js
+^http:\/\/iykhb\.xyz\/tantan\/mobile\/tantan\/user\/addNm url response-body "code":\d+ response-body "code":1
 
 [mitm]
 hostname= iykhb.xyz
