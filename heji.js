@@ -1,5 +1,11 @@
 
 [rewrite_local]
+#杏仁直播 by:Luke
+^https:\/\/hx\.senhaijixie\.cn\/live-ns\/payVideo\/livePayDeduct url response-body "code":\d+, response-body "code":0,
+[Mitm]
+hx.senhaijixie.cn
+
+[rewrite_local]
 #探探网页版 by:Luke
 #观看地址 http://fnidf.buzz?uid=dvraowx4 
 #如打不开请用这个地址 http://iykhb.xyz/My?userId=1406787851020423168
