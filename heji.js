@@ -1,6 +1,8 @@
 
 [rewrite_local]
 #杏仁直播 by:Luke
+下载地址:https://96zz.vip/?channelCode=5604724
+#进去收费的点确定付费
 ^https:\/\/hx\.senhaijixie\.cn\/live-ns\/payVideo\/livePayDeduct url response-body "code":\d+, response-body "code":0,
 [Mitm]
 hx.senhaijixie.cn
