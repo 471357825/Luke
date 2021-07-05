@@ -1,3 +1,9 @@
+[rewrite_local]
+#如雪直播  下载地址：https://al0f.cn/
+#公众号：捷径指令大全 byLuke
+^https:\/\/xw-lv\.hengmanjiankang\.cn\/api\/publi url response-body "type"\s*:\s*"\d+", response-body "type":"0",
+[Mitm]
+xw-lv.hengmanjiankang.cn
 
 [rewrite_local]
 #爱浪直播 by:Luke
