@@ -12,6 +12,9 @@ xw-lv.hengmanjiankang.cn
 
 
 var obj = JSON.parse($response.body);
-obj.data.info.type = "0";
+for (var i = 0; i < obj.data.length; i++) {
+       obj.data[i].info.type = "0";
+   }
+
 
 $done({body: JSON.stringify(obj)});
