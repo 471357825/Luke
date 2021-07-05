@@ -1,7 +1,15 @@
+
+[rewrite_local]
+#爱浪直播 by:Luke
+下载地址: https://66fq.vip/?channelCode=4681493
+#进去收费的点确定付费
+^https:\/\/api\.sdshibang\.cn\/live-ns\/payVideo\/livePayDeduct url response-body "code":\d+, response-body "code":0,
+[Mitm]
+api.sdshibang.cn
+
 [rewrite_local]
 #2496音乐 公众号：捷径指令大全  by：Luke
 ^http:\/\/api_2496\.kuwo\.cn\/front\/user\/vipstatus url script-response-body https://raw.githubusercontent.com/471357825/Luke/main/2496.js
-
 [mitm]
 api_2496.kuwo.cn
 
