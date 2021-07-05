@@ -5,8 +5,8 @@
 #探探网页版 by:Luke
 #观看地址 http://fnidf.buzz?uid=dvraowx4 
 #如打不开请用这个地址 http://iykhb.xyz/My?userId=1406787851020423168
-^http:\/\/(.+)\.(+)\/tantan\/mobile\/tantan\/user\/login url script-response-body https://raw.githubusercontent.com/471357825/Luke/main/tantan.js
-^http:\/\/(.+)\.(+)\/tantan\/mobile\/tantan\/user\/addNm url response-body "code":\d+ response-body "code":1
+^http:\/\/(.+)\/tantan\/mobile\/tantan\/user\/login url script-response-body https://raw.githubusercontent.com/471357825/Luke/main/tantan.js
+^http:\/\/(.+)\/tantan\/mobile\/tantan\/user\/addNm url response-body "code":\d+ response-body "code":1
 [mitm]
 *.*
 
