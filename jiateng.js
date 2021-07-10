@@ -13,7 +13,7 @@ var body = $response.body;
 var url = $request.url;
 var obj = JSON.parse(body);
 
-body=body.replace(/userVip":\d/g,'userVip":1').replace(/expiredTime":\d+/g,'expiredTime":9876543210000').replace(/isVip":\d/g,'isVip":0').replace(/nickname":.+?,/g,'vip_end_date":"捷径指令大全",').replace(/isCharge":\d/g,'isCharge":0').
+body=body.replace(/userVip":\d/g,'userVip":1').replace(/expiredTime":\d+/g,'expiredTime":9876543210000').replace(/isVip":\d/g,'isVip":0').replace(/nickname":.+?,/g,'nickname":"捷径指令大全",').replace(/isCharge":\d/g,'isCharge":0').
 
 
 $done({body});
