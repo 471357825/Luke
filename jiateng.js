@@ -1,7 +1,7 @@
 /*
 [rewrite_local]
 #加藤视频  公众号：捷径指令大全  by:Luke
-^https:\/\/api\.(.+)\.cc\/shorter\/(video\/theylikeVideo|video\/hot\/list|home\/list|user\/getUser|user\/homePage|user\/homePageExt|resource\/getWindowNotice) url script-response-body https://raw.githubusercontent.com/471357825/Luke/main/jiateng.js
+^https:\/\/api\.(.+)\.cc\/shorter\/(video\/(.+)|home\/list|user\/(.+)|resource\/getWindowNotice) url script-response-body https://raw.githubusercontent.com/471357825/Luke/main/jiateng.js
 下载地址:
 https://www.sanminnongye.com/?invitationCode=YMG82M
 [MITM]
