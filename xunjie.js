@@ -6,7 +6,7 @@ Quantumult X 脚本:
 [rewrite_local]
 #公众号:捷径指令大全
 # 迅捷旗下app解锁  by:Luke
-^https:\/\/(.+)\/api\/v\d\/* url script-response-body https://raw.githubusercontent.com/471357825/MyActions/main/xunjie.js
+^https:\/\/(.+)\/api\/v\d\/* url script-response-body https://raw.githubusercontent.com/471357825/Luke/main/xunjie.js
 
 [mitm]
 hostname = *.*.*,
