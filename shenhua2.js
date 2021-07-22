@@ -3,7 +3,7 @@
 [rewrite_local]
 #神话直播  下载地址:https://shzb.live/   邀请码:888888
 #公众号:捷径指令大全  by:Luke
-^https:\/\/shapi\.ysqhds\.com\/api\/video\/config url script-response-body https://raw.githubusercontent.com/471357825/Luke/main/shenhua.js
+^https:\/\/shapi\.ysqhds\.com\/api\/video\/config url script-response-body https://raw.githubusercontent.com/471357825/Luke/main/shenhua2.js
 [mitm]
 shapi.ysqhds.com
 */
