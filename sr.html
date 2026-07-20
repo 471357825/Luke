@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>农历生日表</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { 
+            font-family: Arial, sans-serif; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            min-height: 100vh; 
+            background-color: #f5f5f5; 
+            padding: 20px; 
+        }
+        .main-container { 
+            width: 100%; 
+            max-width: 800px; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+        }
+        .capture-container { 
+            width: 100%; 
+            background-color: white; 
+            border-radius: 10px; 
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1); 
+            overflow: visible; 
+            display: flex; 
+            flex-direction: column; 
+            padding: 20px; 
+            box-sizing: border-box; 
+            margin: 0 auto; 
+        }
+        h2 { 
+            color: #006400; 
+            margin-bottom: 15px; 
+            text-align: center; 
+            font-size: 40px; 
+            letter-spacing: 1em; 
+            margin-right: -1em; 
+            font-weight: bold; 
+            padding: 1px 0; 
+        }
+        table { 
+            border-collapse: collapse; 
+            width: 100%; 
+            margin: 10px 0; 
+            font-size: 14px; 
+            background-color: white; 
+        }
+        th, td { 
+            padding: 0; 
+            border: 1px solid white; 
+            position: relative; 
+            height: 40px; 
+        }
+        .cell-container { 
+            position: relative; 
+            height: 100%; 
+            width: 100%; 
+            z-index: 1; 
+        }
+        .cell-content { 
+            padding: 8px 12px; 
+            height: 100%; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+        }
+        .cell-border { 
+            position: absolute; 
+            top: 0; 
+            left: 0; 
+            right: 0; 
+            bottom: 0; 
+            border: 1px solid white; 
+            pointer-events: none; 
+            z-index: 2; 
+        }
+        .month-cell .cell-container { 
+            background-color: #f0f0f0; 
+        }
+        .name-content { 
+            letter-spacing: 0.5em; 
+            margin-right: -0.5em; 
+        }
+        .red-yellow .cell-container { 
+            background-color: #FF0000; 
+        }
+        .red-yellow .cell-content { 
+            color: #FFFF00; 
+        }
+        .beige .cell-container { 
+            background-color: #FFF9C4; 
+        }
+        .light-blue .cell-container { 
+            background-color: #D4F1F4; 
+        }
+        .light-green .cell-container { 
+            background-color: #C8E6C9; 
+        }
+        .light-red .cell-container { 
+            background-color: #FFCDD2; 
+        }
+        thead th .cell-container { 
+            background-color: #006400; 
+            color: white; 
+        }
+        .stats-section { 
+            margin-top: 15px; 
+            padding: 15px; 
+            background-color: #f9f9f9; 
+            border-radius: 8px; 
+        }
+        .stats-title { 
+            text-align: center; 
+            margin-bottom: 10px; 
+            color: #006400; 
+            font-size: 18px; 
+        }
+        .stats-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); 
+            gap: 10px; 
+        }
+        .stat-item { 
+            display: flex; 
+            align-items: center; 
+        }
+        .color-box { 
+            width: 20px; 
+            height: 20px; 
+            margin-right: 8px; 
+            border: 1px solid #ddd; 
+        }
+        .download-btn { 
+            background-color: #006400; 
+            color: white; 
+            border: none; 
+            padding: 12px 24px; 
+            margin-top: 20px; 
+            cursor: pointer; 
+            border-radius: 4px; 
+            font-size: 16px; 
+            transition: background-color 0.3s; 
+        }
+        .download-btn:hover { 
+            background-color: #004d00; 
+        }
+        .download-btn:disabled { 
+            background-color: #cccccc; 
+            cursor: not-allowed; 
+        }
+        .third-col-blue .cell-container { 
+            background-color: #E6F7FF; 
+        }
+        .third-col-green .cell-container { 
+            background-color: #F0FFF0; 
+        }
+        @media print {
+            body { margin: 0; padding: 0; background: white; zoom: 1.1; }
+            .main-container { box-shadow: none; width: 100%; max-width: 100%; }
+            .capture-container { box-shadow: none; border-radius: 0; padding: 10px; }
+            .download-btn { display: none; }
+            table { page-break-inside: avoid; }
+            h2 { font-size: 36px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <div id="capture-area" class="capture-container">
+            <h2>农历生日表</h2>
+            <table id="birthday-table">
+                <!-- 表格内容保持不变 -->
+                <thead>
+                    <tr>
+                        <th><div class="cell-container"><div class="cell-content">农历月份</div><div class="cell-border"></div></div></th>
+                        <th><div class="cell-container"><div class="cell-content">姓名</div><div class="cell-border"></div></div></th>
+                        <th><div class="cell-container"><div class="cell-content">出生年份(农历)</div><div class="cell-border"></div></div></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- 1月 -->
+                    <tr><td class="month-cell" rowspan="4"><div class="cell-container"><div class="cell-content">1月</div><div class="cell-border"></div></div></td><td class="beige"><div class="cell-container"><div class="cell-content"><span class="name-content">卫军</span></div><div class="cell-border"></div></div></td><td class="third-col-blue"><div class="cell-container"><div class="cell-content">1972年01月01日</div><div class="cell-border"></div></div></td></tr>
+                    <tr><td class="light-red"><div class="cell-container"><div class="cell-content"><span class="name-content">陆海</span></div><div class="cell-border"></div></div></td><td class="third-col-green"><div class="cell-container"><div class="cell-content">1974年01月13日</div><div class="cell-border"></div></div></td></tr>
+                    <tr><td class="red-yellow"><div class="cell-container"><div class="cell-content"><span class="name-content">素琴</span></div><div class="cell-border"></div></div></td><td class="third-col-blue"><div class="cell-container"><div class="cell-content">1939年01月19日</div><div class="cell-border"></div></div></td></tr>
+                    <tr><td class="light-green"><div class="cell-container"><div class="cell-content"><span class="name-content">可昕</span></div><div class="cell-border"></div></div></td><td class="third-col-green"><div class="cell-container"><div class="cell-content">2023年01月21日</div><div class="cell-border"></div></div></td></tr>
+                    <!-- 3月 -->
+                    <tr><td class="month-cell" rowspan="3"><div class="cell-container"><div class="cell-content">3月</div><div class="cell-border"></div></div></td><td class="light-blue"><div class="cell-container"><div class="cell-content"><span class="name-content">伟玲</span></div><div class="cell-border"></div></div></td><td class="third-col-blue"><div class="cell-container"><div class="cell-content">1991年03月11日</div><div class="cell-border"></div></div></td></tr>
+                    <!-- 修改点1：刘泽楷 → 泽楷；修改点2：03月19日 → 2026年03月13日 -->
+                    <tr><td class="beige"><div class="cell-container"><div class="cell-content"><span class="name-content">泽楷</span></div><div class="cell-border"></div></div></td><td class="third-col-blue"><div class="cell-container"><div class="cell-content">2026年03月13日</div><div class="cell-border"></div></div></td></tr>
+                    <tr><td class="light-green"><div class="cell-container"><div class="cell-content"><span class="name-content">楚诗</span></div><div class="cell-border"></div></div></td><td class="third-col-green"><div class="cell-container"><div class="cell-content">1992年03月20日</div><div class="cell-border"></div></div></td></tr>
+                    <!-- 4月 -->
+                    <tr><td class="month-cell" rowspan="2"><div class="cell-container"><div class="cell-content">4月</div><div class="cell-border"></div></div></td><td class="light-red"><div class="cell-container"><div class="cell-content"><span class="name-content">明易</span></div><div class="cell-border"></div></div></td><td class="third-col-blue"><div class="cell-container"><div class="cell-content">2010年04月22日</div><div class="cell-border"></div></div></td></tr>
+                    <tr><td class="beige"><div class="cell-container"><div class="cell-content"><span class="name-content">晋怡</span></div><div class="cell-border"></div></div></td><td class="third-col-green"><div class="cell-container"><div class="cell-content">1998年04月23日</div><div class="cell-border"></div></div></td></tr>
+                    <!-- 5月 -->
+                    <tr><td class="month-cell"><div class="cell-container"><div class="cell-content">5月</div><div class="cell-border"></div></div></td><td class="light-blue"><div class="cell-container"><div class="cell-content"><span class="name-content">利科</span></div><div class="cell-border"></div></div></td><td class="third-col-blue"><div class="cell-container"><div class="cell-content">1990年05月16日</div><div class="cell-border"></div></div></td></tr>
+                    <!-- 6月 -->
+                    <tr><td class="month-cell"><div class="cell-container"><div class="cell-content">6月</div><div class="cell-border"></div></div></td><td class="light-green"><div class="cell-container"><div class="cell-content"><span class="name-content">宇宁</span></div><div class="cell-border"></div></div></td><td class="third-col-green"><div class="cell-container"><div class="cell-content">1995年06月25日</div><div class="cell-border"></div></div></td></tr>
+                    <!-- 7月 -->
+                    <tr><td class="month-cell" rowspan="2"><div class="cell-container"><div class="cell-content">7月</div><div class="cell-border"></div></div></td><td class="light-blue"><div class="cell-container"><div class="cell-content"><span class="name-content">卓岑</span></div><div class="cell-border"></div></div></td><td class="third-col-blue"><div class="cell-container"><div class="cell-content">1990年07月04日</div><div class="cell-border"></div></div></td></tr>
+                    <tr><td class="beige"><div class="cell-container"><div class="cell-content"><span class="name-content">咏茵</span></div><div class="cell-border"></div></div></td><td class="third-col-green"><div class="cell-container"><div class="cell-content">1998年07月12日</div><div class="cell-border"></div></div></td></tr>
+                    <!-- 8月 -->
+                    <tr><td class="month-cell" rowspan="2"><div class="cell-container"><div class="cell-content">8月</div><div class="cell-border"></div></div></td><td class="light-blue"><div class="cell-container"><div class="cell-content"><span class="name-content">惠琴</span></div><div class="cell-border"></div></div></td><td class="third-col-blue"><div class="cell-container"><div class="cell-content">1969年08月17日</div><div class="cell-border"></div></div></td></tr>
+                    <tr><td class="light-blue"><div class="cell-container"><div class="cell-content"><span class="name-content">珈圣</span></div><div class="cell-border"></div></div></td><td class="third-col-green"><div class="cell-container"><div class="cell-content">2025年08月19日</div><div class="cell-border"></div></div></td></tr>
+                    <!-- 9月 -->
+                    <tr><td class="month-cell" rowspan="6"><div class="cell-container"><div class="cell-content">9月</div><div class="cell-border"></div></div></td><td class="light-green"><div class="cell-container"><div class="cell-content"><span class="name-content">宇东</span></div><div class="cell-border"></div></div></td><td class="third-col-blue"><div class="cell-container"><div class="cell-content">1993年09月02日</div><div class="cell-border"></div></div></td></tr>
+                    <tr><td class="light-blue"><div class="cell-container"><div class="cell-content"><span class="name-content">陆军</span></div><div class="cell-border"></div></div></td><td class="third-col-green"><div class="cell-container"><div class="cell-content">1965年09月05日</div><div class="cell-border"></div></div></td></tr>
+                    <tr><td class="light-blue"><div class="cell-container"><div class="cell-content"><span class="name-content">星睿</span></div><div class="cell-border"></div></div></td><td class="third-col-blue"><div class="cell-container"><div class="cell-content">2024年09月17日</div><div class="cell-border"></div></div></td></tr>
+                    <tr><td class="beige"><div class="cell-container"><div class="cell-content"><span class="name-content">洛彤</span></div><div class="cell-border"></div></div></td><td class="third-col-green"><div class="cell-container"><div class="cell-content">2024年09月21日</div><div class="cell-border"></div></div></td></tr>
+                    <tr><td class="beige"><div class="cell-container"><div class="cell-content"><span class="name-content">丽玲</span></div><div class="cell-border"></div></div></td><td class="third-col-blue"><div class="cell-container"><div class="cell-content">1977年09月23日</div><div class="cell-border"></div></div></td></tr>
+                    <tr><td class="light-green"><div class="cell-container"><div class="cell-content"><span class="name-content">拥军</span></div><div class="cell-border"></div></div></td><td class="third-col-green"><div class="cell-container"><div class="cell-content">1967年09月29日</div><div class="cell-border"></div></div></td></tr>
+                    <!-- 10月 -->
+                    <tr><td class="month-cell" rowspan="2"><div class="cell-container"><div class="cell-content">10月</div><div class="cell-border"></div></div></td><td class="light-blue"><div class="cell-container"><div class="cell-content"><span class="name-content">沐颜</span></div><div class="cell-border"></div></div></td><td class="third-col-blue"><div class="cell-container"><div class="cell-content">2022年10月10日</div><div class="cell-border"></div></div></td></tr>
+                    <tr><td class="beige"><div class="cell-container"><div class="cell-content"><span class="name-content">刘杰</span></div><div class="cell-border"></div></div></td><td class="third-col-green"><div class="cell-container"><div class="cell-content">1997年10月11日</div><div class="cell-border"></div></div></td></tr>
+                    <!-- 11月 -->
+                    <tr><td class="month-cell" rowspan="3"><div class="cell-container"><div class="cell-content">11月</div><div class="cell-border"></div></div></td><td class="light-red"><div class="cell-container"><div class="cell-content"><span class="name-content">明昊</span></div><div class="cell-border"></div></div></td><td class="third-col-blue"><div class="cell-container"><div class="cell-content">2002年11月02日</div><div class="cell-border"></div></div></td></tr>
+                    <tr><td class="light-blue"><div class="cell-container"><div class="cell-content"><span class="name-content">利珊</span></div><div class="cell-border"></div></div></td><td class="third-col-green"><div class="cell-container"><div class="cell-content">1991年11月04日</div><div class="cell-border"></div></div></td></tr>
+                    <tr><td class="light-blue"><div class="cell-container"><div class="cell-content"><span class="name-content">利成</span></div><div class="cell-border"></div></div></td><td class="third-col-blue"><div class="cell-container"><div class="cell-content">1993年11月06日</div><div class="cell-border"></div></div></td></tr>
+                    <!-- 12月 -->
+                    <tr><td class="month-cell" rowspan="7"><div class="cell-container"><div class="cell-content">12月</div><div class="cell-border"></div></div></td><td class="light-red"><div class="cell-container"><div class="cell-content"><span class="name-content">锦红</span></div><div class="cell-border"></div></div></td><td class="third-col-green"><div class="cell-container"><div class="cell-content">1982年12月03日</div><div class="cell-border"></div></div></td></tr>
+                    <tr><td class="light-blue"><div class="cell-container"><div class="cell-content"><span class="name-content">金泉</span></div><div class="cell-border"></div></div></td><td class="third-col-blue"><div class="cell-container"><div class="cell-content">1996年12月03日</div><div class="cell-border"></div></div></td></tr>
+                    <tr><td class="beige"><div class="cell-container"><div class="cell-content"><span class="name-content">晋鸿</span></div><div class="cell-border"></div></div></td><td class="third-col-green"><div class="cell-container"><div class="cell-content">1996年12月04日</div><div class="cell-border"></div></div></td></tr>
+                    <tr><td class="light-green"><div class="cell-container"><div class="cell-content"><span class="name-content">洪峰</span></div><div class="cell-border"></div></div></td><td class="third-col-blue"><div class="cell-container"><div class="cell-content">1991年12月16日</div><div class="cell-border"></div></div></td></tr>
+                    <tr><td class="light-blue"><div class="cell-container"><div class="cell-content"><span class="name-content">芯悦</span></div><div class="cell-border"></div></div></td><td class="third-col-green"><div class="cell-container"><div class="cell-content">2021年12月16日</div><div class="cell-border"></div></div></td></tr>
+                    <tr><td class="red-yellow"><div class="cell-container"><div class="cell-content"><span class="name-content">锦强</span></div><div class="cell-border"></div></div></td><td class="third-col-blue"><div class="cell-container"><div class="cell-content">1932年12月22日</div><div class="cell-border"></div></div></td></tr>
+                    <tr><td class="light-green"><div class="cell-container"><div class="cell-content"><span class="name-content">会英</span></div><div class="cell-border"></div></div></td><td class="third-col-green"><div class="cell-container"><div class="cell-content">1970年12月24日</div><div class="cell-border"></div></div></td></tr>
+                </tbody>
+            </table>
+            <div class="stats-section">
+                <h3 class="stats-title">家庭统计</h3>
+                <div class="stats-grid">
+                    <div class="stat-item"><span class="color-box" style="background-color: #FF0000;"></span> 公嬷: <span id="red-yellow-count">2</span>人 </div>
+                    <div class="stat-item"><span class="color-box" style="background-color: #D4F1F4;"></span> 陆军家: <span id="light-blue-count">11</span>人 </div>
+                    <div class="stat-item"><span class="color-box" style="background-color: #C8E6C9;"></span> 拥军家: <span id="light-green-count">8</span>人 </div>
+                    <div class="stat-item"><span class="color-box" style="background-color: #FFF9C4;"></span> 卫军家: <span id="beige-count">7</span>人 </div>
+                    <div class="stat-item"><span class="color-box" style="background-color: #FFCDD2;"></span> 陆海家: <span id="light-red-count">4</span>人 </div>
+                    <div class="stat-item"><span class="color-box" style="background-color: #f8f8f8;"></span> 一共: <span id="default-count">32</span>人 </div>
+                </div>
+            </div>
+        </div>
+        <button class="download-btn" id="download-btn">下载表格图片</button>
+    </div>
+    <!-- 使用可靠的CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('页面加载完成，初始化下载功能...');
+            
+            // 更新统计数字
+            const countColor = (className) => {
+                return document.querySelectorAll(`td.${className}`).length;
+            };
+            
+            document.getElementById('red-yellow-count').textContent = countColor('red-yellow');
+            document.getElementById('light-blue-count').textContent = countColor('light-blue');
+            document.getElementById('light-green-count').textContent = countColor('light-green');
+            document.getElementById('beige-count').textContent = countColor('beige');
+            document.getElementById('light-red-count').textContent = countColor('light-red');
+            document.getElementById('default-count').textContent = 
+                parseInt(countColor('red-yellow')) + 
+                parseInt(countColor('light-blue')) + 
+                parseInt(countColor('light-green')) + 
+                parseInt(countColor('beige')) + 
+                parseInt(countColor('light-red'));
+            // 下载功能
+            document.getElementById('download-btn').addEventListener('click', async function() {
+                console.log('下载按钮被点击');
+                const btn = this;
+                const originalText = btn.textContent;
+                
+                btn.disabled = true;
+                btn.textContent = '正在生成图片...';
+                
+                try {
+                    const element = document.getElementById('capture-area');
+                    console.log('开始生成canvas...');
+                    
+                    // 简化配置，提高兼容性
+                    const canvas = await html2canvas(element, {
+                        scale: 2,
+                        useCORS: true,
+                        allowTaint: true,
+                        backgroundColor: '#FFFFFF',
+                        logging: true, // 开启日志便于调试
+                        onclone: function(clonedDoc) {
+                            console.log('文档克隆完成');
+                        }
+                    });
+                    
+                    console.log('canvas生成完成');
+                    
+                    // 创建下载链接
+                    const link = document.createElement('a');
+                    link.download = '农历生日表_' + new Date().toLocaleDateString() + '.png';
+                    link.href = canvas.toDataURL('image/png', 1.0);
+                    
+                    // 触发下载
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                    
+                    console.log('下载完成');
+                    
+                } catch (error) {
+                    console.error('生成图片失败:', error);
+                    alert('生成图片失败: ' + error.message);
+                } finally {
+                    btn.disabled = false;
+                    btn.textContent = originalText;
+                }
+            });
+            
+            console.log('下载功能初始化完成');
+        });
+    </script>
+</body>
+</html>
