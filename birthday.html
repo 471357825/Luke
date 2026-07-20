@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>生日表 · 精确转换新历</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { 
+            font-family: Arial, sans-serif; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            min-height: 100vh; 
+            background-color: #f5f5f5; 
+            padding: 20px; 
+        }
+        .main-container { 
+            width: 100%; 
+            max-width: 950px; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+        }
+        .capture-container { 
+            width: 100%; 
+            background-color: white; 
+            border-radius: 10px; 
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1); 
+            overflow: visible; 
+            display: flex; 
+            flex-direction: column; 
+            padding: 20px; 
+            box-sizing: border-box; 
+            margin: 0 auto; 
+        }
+
+        /* ===== 标题装饰 ===== */
+        .title-wrapper {
+            text-align: center;
+            margin-bottom: 20px;
+            position: relative;
+        }
+        .title-wrapper::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(90deg, #006400, #4CAF50, #006400);
+            margin: 10px auto 0;
+            border-radius: 2px;
+        }
+        .main-title {
+            color: #006400;
+            font-size: 42px;
+            font-weight: bold;
+            letter-spacing: 0.3em;
+            margin-right: -0.3em;
+            text-shadow: 0 2px 4px rgba(0,100,0,0.15);
+            display: inline-block;
+            position: relative;
+        }
+        .main-title::before {
+            content: '🎂 ';
+            font-size: 36px;
+            letter-spacing: 0;
+            margin-right: 4px;
+        }
+        .main-title::after {
+            content: ' 🎂';
+            font-size: 36px;
+            letter-spacing: 0;
+            margin-left: 4px;
+        }
+        .sub-title {
+            font-size: 14px;
+            color: #888;
+            letter-spacing: 0.5em;
+            margin-top: 2px;
+            font-weight: normal;
+        }
+
+        table { 
+            border-collapse: collapse; 
+            width: 100%; 
+            margin: 10px 0; 
+            font-size: 13px; 
+            background-color: white; 
+        }
+        th, td { 
+            padding: 0; 
+            border: 1px solid white; 
+            position: relative; 
+            height: 40px; 
+        }
+        .cell-container { 
+            position: relative; 
+            height: 100%; 
+            width: 100%; 
+            z-index: 1; 
+        }
+        .cell-content { 
+            padding: 8px 4px; 
+            height: 100%; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            text-align: center;
+        }
+        .cell-border { 
+            position: absolute; 
+            top: 0; 
+            left: 0; 
+            right: 0; 
+            bottom: 0; 
+            border: 1px solid white; 
+            pointer-events: none; 
+            z-index: 2; 
+        }
+        .month-cell .cell-container { background-color: #f0f0f0; }
+        .name-content { letter-spacing: 0.2em; margin-right: -0.2em; }
+        
+        .red-yellow .cell-container { background-color: #FF0000; }
+        .red-yellow .cell-content { color: #FFFF00; }
+        .beige .cell-container { background-color: #FFF9C4; }
+        .light-blue .cell-container { background-color: #D4F1F4; }
+        .light-green .cell-container { background-color: #C8E6C9; }
+        .light-red .cell-container { background-color: #FFCDD2; }
+        
+        thead th .cell-container { 
+            background-color: #006400; 
+            color: white; 
+        }
+
+        .row-color-green .cell-container { background-color: #E8F5E9; }
+        .row-color-blue .cell-container { background-color: #E3F2FD; }
+
+        .birthday-passed .cell-container {
+            background-color: #FFCDD2 !important; 
+            border-left: 3px solid #b30000;
+        }
+        .birthday-passed .cell-content {
+            font-weight: 600;
+            color: #990000;
+        }
+
+        .stats-section { 
+            margin-top: 15px; 
+            padding: 15px; 
+            background-color: #f9f9f9; 
+            border-radius: 8px; 
+        }
+        .stats-title { 
+            text-align: center; 
+            margin-bottom: 10px; 
+            color: #006400; 
+            font-size: 18px; 
+        }
+        .stats-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); 
+            gap: 10px; 
+        }
+        .stat-item { 
+            display: flex; 
+            align-items: center; 
+        }
+        .color-box { 
+            width: 20px; 
+            height: 20px; 
+            margin-right: 8px; 
+            border: 1px solid #ddd; 
+        }
+        .download-btn { 
+            background-color: #006400; 
+            color: white; 
+            border: none; 
+            padding: 12px 24px; 
+            margin-top: 20px; 
+            cursor: pointer; 
+            border-radius: 4px; 
+            font-size: 16px; 
+            transition: background-color 0.3s; 
+        }
+        .download-btn:hover { background-color: #004d00; }
+        .download-btn:disabled { background-color: #cccccc; cursor: not-allowed; }
+        @media print {
+            body { margin: 0; padding: 0; background: white; zoom: 1.1; }
+            .main-container { box-shadow: none; width: 100%; max-width: 100%; }
+            .capture-container { box-shadow: none; border-radius: 0; padding: 10px; }
+            .download-btn { display: none; }
+            table { page-break-inside: avoid; }
+            .main-title { font-size: 32px; }
+            .main-title::before, .main-title::after { font-size: 28px; }
+        }
+        @media (max-width: 700px) {
+            .cell-content { font-size: 10px; padding: 4px 2px; }
+            th .cell-content { font-size: 10px; }
+            .main-title { font-size: 28px; }
+            .main-title::before, .main-title::after { font-size: 22px; }
+        }
+        .loading-tip { text-align:center; padding:20px; color:#666; }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <div id="capture-area" class="capture-container">
+            <!-- ===== 新标题 ===== -->
+            <div class="title-wrapper">
+                <div class="main-title">生日表</div>
+                <div class="sub-title">— 农历 · 新历对照 —</div>
+            </div>
+
+            <table id="birthday-table">
+                <thead>
+                    <tr>
+                        <th><div class="cell-container"><div class="cell-content">农历月份</div><div class="cell-border"></div></div></th>
+                        <th><div class="cell-container"><div class="cell-content">姓名</div><div class="cell-border"></div></div></th>
+                        <th><div class="cell-container"><div class="cell-content">农历生日</div><div class="cell-border"></div></div></th>
+                        <th><div class="cell-container"><div class="cell-content">新历生日</div><div class="cell-border"></div></div></th>
+                    </tr>
+                </thead>
+                <tbody id="table-body">
+                    <tr><td colspan="4" class="loading-tip">⏳ 正在加载农历转换库...</td></tr>
+                </tbody>
+            </table>
+            <div class="stats-section">
+                <h3 class="stats-title">家庭统计</h3>
+                <div class="stats-grid">
+                    <div class="stat-item"><span class="color-box" style="background-color: #FF0000;"></span> 公嬷: <span id="red-yellow-count">0</span>人 </div>
+                    <div class="stat-item"><span class="color-box" style="background-color: #D4F1F4;"></span> 陆军家: <span id="light-blue-count">0</span>人 </div>
+                    <div class="stat-item"><span class="color-box" style="background-color: #C8E6C9;"></span> 拥军家: <span id="light-green-count">0</span>人 </div>
+                    <div class="stat-item"><span class="color-box" style="background-color: #FFF9C4;"></span> 卫军家: <span id="beige-count">0</span>人 </div>
+                    <div class="stat-item"><span class="color-box" style="background-color: #FFCDD2;"></span> 陆海家: <span id="light-red-count">0</span>人 </div>
+                    <div class="stat-item"><span class="color-box" style="background-color: #f8f8f8;"></span> 一共: <span id="default-count">0</span>人 </div>
+                </div>
+            </div>
+        </div>
+        <button class="download-btn" id="download-btn">下载表格图片</button>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/lunar-javascript@1.7.1/lunar.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+    <script>
+        (function() {
+            const rawData = [
+                { month: 1, name: '卫军', lunarDate: '1972年01月01日', color: 'beige' },
+                { month: 1, name: '陆海', lunarDate: '1974年01月13日', color: 'light-red' },
+                { month: 1, name: '素琴', lunarDate: '1939年01月19日', color: 'red-yellow' },
+                { month: 1, name: '可昕', lunarDate: '2023年01月21日', color: 'light-green' },
+                { month: 3, name: '伟玲', lunarDate: '1991年03月11日', color: 'light-blue' },
+                { month: 3, name: '泽楷', lunarDate: '2026年03月13日', color: 'beige' },
+                { month: 3, name: '楚诗', lunarDate: '1992年03月20日', color: 'light-green' },
+                { month: 4, name: '明易', lunarDate: '2010年04月22日', color: 'light-red' },
+                { month: 4, name: '晋怡', lunarDate: '1998年04月23日', color: 'beige' },
+                { month: 5, name: '利科', lunarDate: '1990年05月16日', color: 'light-blue' },
+                { month: 6, name: '宇宁', lunarDate: '1995年06月25日', color: 'light-green' },
+                { month: 7, name: '卓岑', lunarDate: '1990年07月04日', color: 'light-blue' },
+                { month: 7, name: '咏茵', lunarDate: '1998年07月12日', color: 'beige' },
+                { month: 8, name: '惠琴', lunarDate: '1969年08月17日', color: 'light-blue' },
+                { month: 8, name: '珈圣', lunarDate: '2025年08月19日', color: 'light-blue' },
+                { month: 9, name: '宇东', lunarDate: '1993年09月02日', color: 'light-green' },
+                { month: 9, name: '陆军', lunarDate: '1965年09月05日', color: 'light-blue' },
+                { month: 9, name: '星睿', lunarDate: '2024年09月17日', color: 'light-blue' },
+                { month: 9, name: '洛彤', lunarDate: '2024年09月21日', color: 'beige' },
+                { month: 9, name: '丽玲', lunarDate: '1977年09月23日', color: 'beige' },
+                { month: 9, name: '拥军', lunarDate: '1967年09月29日', color: 'light-green' },
+                { month: 10, name: '沐颜', lunarDate: '2022年10月10日', color: 'light-blue' },
+                { month: 10, name: '刘杰', lunarDate: '1997年10月11日', color: 'beige' },
+                { month: 11, name: '明昊', lunarDate: '2002年11月02日', color: 'light-red' },
+                { month: 11, name: '利珊', lunarDate: '1991年11月04日', color: 'light-blue' },
+                { month: 11, name: '利成', lunarDate: '1993年11月06日', color: 'light-blue' },
+                { month: 12, name: '锦红', lunarDate: '1982年12月03日', color: 'light-red' },
+                { month: 12, name: '金泉', lunarDate: '1996年12月03日', color: 'light-blue' },
+                { month: 12, name: '晋鸿', lunarDate: '1996年12月04日', color: 'beige' },
+                { month: 12, name: '洪峰', lunarDate: '1991年12月16日', color: 'light-green' },
+                { month: 12, name: '芯悦', lunarDate: '2021年12月16日', color: 'light-blue' },
+                { month: 12, name: '锦强', lunarDate: '1932年12月22日', color: 'red-yellow' },
+                { month: 12, name: '会英', lunarDate: '1970年12月24日', color: 'light-green' }
+            ];
+
+            function waitForLunar(callback) {
+                if (typeof Lunar !== 'undefined') {
+                    callback();
+                    return;
+                }
+                let tries = 0;
+                const interval = setInterval(() => {
+                    tries++;
+                    if (typeof Lunar !== 'undefined') {
+                        clearInterval(interval);
+                        callback();
+                    } else if (tries > 50) {
+                        clearInterval(interval);
+                        document.getElementById('table-body').innerHTML = 
+                            '<tr><td colspan="4" style="text-align:center;padding:20px;color:red;">⚠️ 农历库加载失败，请刷新</td></tr>';
+                    }
+                }, 200);
+            }
+
+            function getSolarThisYear(lunarDateStr) {
+                const match = lunarDateStr.match(/(\d{2})月(\d{2})日/);
+                if (!match) return null;
+                const targetMonth = parseInt(match[1], 10);
+                const targetDay = parseInt(match[2], 10);
+                
+                const today = new Date();
+                const currentYear = today.getFullYear();
+                
+                try {
+                    const lunar = Lunar.fromYmd(currentYear, targetMonth, targetDay);
+                    if (lunar) {
+                        const solar = lunar.getSolar();
+                        if (solar) {
+                            const solarDate = new Date(solar.getYear(), solar.getMonth() - 1, solar.getDay());
+                            return {
+                                year: solar.getYear(),
+                                month: solar.getMonth(),
+                                day: solar.getDay(),
+                                dateObj: solarDate
+                            };
+                        }
+                    }
+                } catch(e) {
+                    for (let yearOffset = 1; yearOffset < 3; yearOffset++) {
+                        try {
+                            const lunar2 = Lunar.fromYmd(currentYear + yearOffset, targetMonth, targetDay);
+                            if (lunar2) {
+                                const solar2 = lunar2.getSolar();
+                                if (solar2) {
+                                    const solarDate2 = new Date(solar2.getYear(), solar2.getMonth() - 1, solar2.getDay());
+                                    return {
+                                        year: solar2.getYear(),
+                                        month: solar2.getMonth(),
+                                        day: solar2.getDay(),
+                                        dateObj: solarDate2
+                                    };
+                                }
+                            }
+                        } catch(e2) {
+                            continue;
+                        }
+                    }
+                    return null;
+                }
+                return null;
+            }
+
+            function renderTable() {
+                const tbody = document.getElementById('table-body');
+                if (!tbody) return;
+                tbody.innerHTML = '';
+
+                const monthMap = new Map();
+                rawData.forEach(item => {
+                    if (!monthMap.has(item.month)) {
+                        monthMap.set(item.month, []);
+                    }
+                    monthMap.get(item.month).push(item);
+                });
+
+                const sortedMonths = Array.from(monthMap.keys()).sort((a,b) => a - b);
+                const colorCount = { 'red-yellow':0, 'light-blue':0, 'light-green':0, 'beige':0, 'light-red':0 };
+                let rowIndex = 0;
+                const today = new Date();
+
+                sortedMonths.forEach(month => {
+                    const items = monthMap.get(month);
+                    const rowCount = items.length;
+                    
+                    items.forEach((item, index) => {
+                        const tr = document.createElement('tr');
+                        const isEvenRow = rowIndex % 2 === 0;
+                        const rowColorClass = isEvenRow ? 'row-color-green' : 'row-color-blue';
+                        rowIndex++;
+
+                        if (index === 0) {
+                            const tdMonth = document.createElement('td');
+                            tdMonth.className = 'month-cell';
+                            tdMonth.setAttribute('rowspan', rowCount);
+                            tdMonth.innerHTML = `
+                                <div class="cell-container">
+                                    <div class="cell-content">${month}月</div>
+                                    <div class="cell-border"></div>
+                                </div>
+                            `;
+                            tr.appendChild(tdMonth);
+                        }
+
+                        const tdName = document.createElement('td');
+                        tdName.className = item.color;
+                        tdName.innerHTML = `
+                            <div class="cell-container">
+                                <div class="cell-content"><span class="name-content">${item.name}</span></div>
+                                <div class="cell-border"></div>
+                            </div>
+                        `;
+                        tr.appendChild(tdName);
+
+                        const tdLunar = document.createElement('td');
+                        tdLunar.className = rowColorClass;
+                        tdLunar.innerHTML = `
+                            <div class="cell-container">
+                                <div class="cell-content">${item.lunarDate}</div>
+                                <div class="cell-border"></div>
+                            </div>
+                        `;
+                        tr.appendChild(tdLunar);
+
+                        const tdSolar = document.createElement('td');
+                        tdSolar.className = rowColorClass;
+
+                        let displaySolar = '—';
+                        let passed = false;
+                        const solarInfo = getSolarThisYear(item.lunarDate);
+                        if (solarInfo && solarInfo.dateObj) {
+                            const y = solarInfo.year;
+                            const m = String(solarInfo.month).padStart(2, '0');
+                            const d = String(solarInfo.day).padStart(2, '0');
+                            displaySolar = `${y}年${m}月${d}日`;
+                            
+                            if (solarInfo.dateObj <= today) {
+                                passed = true;
+                            }
+                        }
+
+                        if (passed) {
+                            tdSolar.classList.add('birthday-passed');
+                        }
+
+                        tdSolar.innerHTML = `
+                            <div class="cell-container">
+                                <div class="cell-content">${displaySolar}</div>
+                                <div class="cell-border"></div>
+                            </div>
+                        `;
+                        tr.appendChild(tdSolar);
+
+                        tbody.appendChild(tr);
+                    });
+                });
+
+                document.querySelectorAll('td.light-blue').forEach(() => colorCount['light-blue']++);
+                document.querySelectorAll('td.light-green').forEach(() => colorCount['light-green']++);
+                document.querySelectorAll('td.beige').forEach(() => colorCount['beige']++);
+                document.querySelectorAll('td.light-red').forEach(() => colorCount['light-red']++);
+                document.querySelectorAll('td.red-yellow').forEach(() => colorCount['red-yellow']++);
+
+                document.getElementById('red-yellow-count').textContent = colorCount['red-yellow'];
+                document.getElementById('light-blue-count').textContent = colorCount['light-blue'];
+                document.getElementById('light-green-count').textContent = colorCount['light-green'];
+                document.getElementById('beige-count').textContent = colorCount['beige'];
+                document.getElementById('light-red-count').textContent = colorCount['light-red'];
+                const total = colorCount['red-yellow'] + colorCount['light-blue'] + colorCount['light-green'] + colorCount['beige'] + colorCount['light-red'];
+                document.getElementById('default-count').textContent = total;
+            }
+
+            waitForLunar(() => {
+                console.log('Lunar库已加载，开始渲染');
+                renderTable();
+            });
+
+            document.getElementById('download-btn').addEventListener('click', async function() {
+                const btn = this;
+                const originalText = btn.textContent;
+                btn.disabled = true;
+                btn.textContent = '正在生成图片...';
+                try {
+                    const element = document.getElementById('capture-area');
+                    const canvas = await html2canvas(element, {
+                        scale: 2,
+                        useCORS: true,
+                        allowTaint: true,
+                        backgroundColor: '#FFFFFF',
+                        logging: false
+                    });
+                    const link = document.createElement('a');
+                    link.download = '生日表_精确新历_' + new Date().toLocaleDateString() + '.png';
+                    link.href = canvas.toDataURL('image/png', 1.0);
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                } catch (error) {
+                    console.error('生成失败:', error);
+                    alert('生成图片失败: ' + error.message);
+                } finally {
+                    btn.disabled = false;
+                    btn.textContent = originalText;
+                }
+            });
+
+        })();
+    </script>
+</body>
+</html>
